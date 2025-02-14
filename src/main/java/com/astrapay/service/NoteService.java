@@ -86,10 +86,17 @@ public class NoteService {
      */
 
     public Void delete(Long noteId) throws DataNotFoundException{
-        if(noteId > idSequence){
+        Long searchedNoteId = null;
+        for (NoteDto noteDto : this.notesData) {
+            if (noteDto.getId().equals(noteId)) {
+                searchedNoteId = noteId;
+                break;
+            }
+        }
+        if (searchedNoteId == null) {
             throw new DataNotFoundException("Note is not found");
         }
-        this.notesData.remove(Math.toIntExact(noteId));
+        this.notesData.remove(Math.toIntExact(searchedNoteId));
         return null;
     }
 }
